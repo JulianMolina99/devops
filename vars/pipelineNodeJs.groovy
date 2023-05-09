@@ -1,5 +1,5 @@
 def call() {
-    /*
+
     pipeline {
         agent any
         tools {
@@ -40,6 +40,6 @@ def call() {
             }
         }
     }
-    */
-    hello()
+
+    //hello()
 }
