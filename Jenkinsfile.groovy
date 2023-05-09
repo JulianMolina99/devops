@@ -1,18 +1,17 @@
 @Library('NodeJSApp_Library@feature') _
 
-/*
-def call() {
-    pipeline {
-        agent any
 
-        stages {
-            //buildStage()
-            //analisysStage()
-      
-        }
+pipeline {
+    agent any
+
+    stages {
+        buildStage()
+        //analisysStage()
+    
     }
 }
-*/
+
+
 hello()
 
 
