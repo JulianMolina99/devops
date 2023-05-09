@@ -9,7 +9,7 @@ def call() {
         stages {
             stage ('Checkout') {
                 steps {
-                    hello()
+                    cloneRepository()
                 }
             }
             
@@ -40,6 +40,4 @@ def call() {
             }
         }
     }
-
-    //hello()
 }
