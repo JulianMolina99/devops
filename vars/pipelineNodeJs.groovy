@@ -1,12 +1,43 @@
+@Library('NodeJSApp_Library@feature') _
 def call() {
-    node {
-        stage('Checkout and build app') {
-            def nodeHome = tool name: 'NodeJS', type: 'nodejs'
-            env.PATH = "${nodeHome}/bin:${env.PATH}"
-            buildStage()
-        } 
-        stage('Test and Analisys with Sonar') {
-            analisysStage()
-        } 
+    pipeline {
+        agent any
+        tools {
+            nodejs 'NodeJS'
+        }
+
+        stages {
+            stage ('Checkout') {
+                steps {
+                    checkout()
+                }
+            }
+            
+            stage('Build app') {
+                steps {
+                    buildNpm()
+                }
+            }
+            
+            stage('Test app') {
+                steps {
+                    testNpm()
+                }
+            }
+            
+            stage('Build artifact') {
+                steps {
+                    buildArtifactNpm()
+                }
+            }
+            
+            stage('Analisys with sonar') {
+                steps {
+                    script{
+                        analisysSonarNpm()
+                    }
+                }
+            }
+        }
     }
 }
