@@ -1,4 +1,4 @@
-@Library('NodeJSApp_Library') _
+@Library('NodeJSApp_Library@feature') _
 
 def call() {
     pipeline {
