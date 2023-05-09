@@ -2,7 +2,7 @@ def buildStage() {
     return {
         stage('Checkout') {
             steps {
-                git credentialsId: 'token_github', url: 'https://github.com/JulianMolina99/nodejs_application.git'
+                git branch: 'feature', credentialsId: 'token_github', url: 'https://github.com/JulianMolina99/nodejs_application.git'
             }
         }
 
