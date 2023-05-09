@@ -1,10 +1,11 @@
 def call() {
-    tools {
-        nodejs 'NodeJS'
-    }
     node {
-        stage('Checkout and Build app') {
-            buildStage()
+        stage('Checkout and build app') {
+            def nodeHome = tool name: 'NodeJS', type: 'nodejs'
+            env.PATH = "${nodeHome}/bin:${env.PATH}"
+            buildStages()
         }
+
+        
     }
 }
