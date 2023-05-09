@@ -1,4 +1,5 @@
 @Library('NodeJSApp_Library@feature') _
+
 def call() {
     pipeline {
         agent any
@@ -9,7 +10,7 @@ def call() {
         stages {
             stage ('Checkout') {
                 steps {
-                    checkout()
+                    hello()
                 }
             }
             
