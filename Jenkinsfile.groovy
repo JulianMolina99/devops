@@ -1,18 +1,11 @@
 @Library('NodeJSApp_Library@feature') _
 
-
 pipeline {
     agent any
 
     stages {
-        buildStage()
-        //analisysStage()
-    
+        script {
+            buildStage().call()
+        }
     }
 }
-
-
-hello()
-
-
-//return this
