@@ -3,8 +3,8 @@ def call (){
     if(scannerTool){
         withSonarQubeEnv('SonarQube Local Server'){
             sh "${scannerTool}/bin/sonar-scanner \
-            -Dsonar.projectKey=test \
-            -Dsonar.projectName=test \
+            -Dsonar.projectKey='nodejs project' \
+            -Dsonar.projectName='nodejs project' \
             -Dsonar.sources=src \
             -Dsonar.exclusions=src/__test__/** \
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
