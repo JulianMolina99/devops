@@ -4,8 +4,6 @@ pipeline {
     agent any
 
     stages {
-        script {
-            buildStage().call()
-        }
+        buildStage().call()
     }
 }
