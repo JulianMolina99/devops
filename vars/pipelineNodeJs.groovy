@@ -1,6 +1,7 @@
 @Library('NodeJSApp_Library@feature') _
 
 def call() {
+    /*
     pipeline {
         agent any
         tools {
@@ -41,4 +42,6 @@ def call() {
             }
         }
     }
+    */
+    hello()
 }
