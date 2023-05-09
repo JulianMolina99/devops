@@ -4,8 +4,9 @@ def call() {
             def nodeHome = tool name: 'NodeJS', type: 'nodejs'
             env.PATH = "${nodeHome}/bin:${env.PATH}"
             buildStage()
-        }
-
-        
+        } 
+        stage('Test and Analisys with Sonar') {
+            analisysStage()
+        } 
     }
 }
