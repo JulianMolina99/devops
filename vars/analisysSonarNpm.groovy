@@ -7,6 +7,7 @@ def call (){
             -Dsonar.projectName='nodejs_project' \
             -Dsonar.sources=src \
             -Dsonar.tests=src/__test__ \
+            -Dsonar.exclusions=src/__test__/** \
             -Dsonar.testExecutionReportPaths=./test-report.xml \
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
         }
