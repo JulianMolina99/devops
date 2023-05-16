@@ -46,7 +46,7 @@ def call(Map parameters) {
                     }
                 }
             }
-/*
+
             stage('Push Docker Image') {
                 steps {
                     script{
@@ -54,7 +54,7 @@ def call(Map parameters) {
                     }
                 }
             }
-*/
+            
             stage('Deploy App with Docker') {
                 steps {
                     script{
@@ -62,8 +62,7 @@ def call(Map parameters) {
                     }
                 }
             }
-
-
+            
         }
     }
 }
