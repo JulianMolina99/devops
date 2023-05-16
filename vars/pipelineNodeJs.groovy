@@ -10,8 +10,6 @@ def call(Map parameters) {
             stage ('Checkout') {
                 steps {
                     cloneRepository(parameters)
-                    echo "${parameters.scmUrl}"
-                    echo "${parameters.branch}"
                 }
             }
             
