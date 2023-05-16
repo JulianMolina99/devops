@@ -1,3 +1,3 @@
-def call(){
-    git branch:'feature', credentialsId: 'token_github', url: 'https://github.com/JulianMolina99/nodejs_application.git'
+def call(Map parameters){
+    git branch:parameters.branch, credentialsId: 'token_github', url: parameters.scmUrl
 }
