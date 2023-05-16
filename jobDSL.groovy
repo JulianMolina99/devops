@@ -8,10 +8,18 @@ pipelineJob('pipeline nodejs_app') {
                         url('https://github.com/JulianMolina99/nodejs_application.git')
                         credentials('token_github')
                     }
-                    
                 }
             }
             scriptPath('Jenkinsfile')
+        }
+    }
+    properties {
+        pipelineTriggers {
+            triggers {
+                cron {
+                    spec('0 */2 * * *')
+                }
+            }
         }
     }
 }
