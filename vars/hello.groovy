@@ -1,4 +1,4 @@
 def call(){
-    echo 'Hello from function'
+    echo 'Hello from function test'
 }
                     
