@@ -1,4 +1,4 @@
 def call(){
-    echo 'Hello from function'
+    echo 'Hello function from devops repo in feature branch'
 }
                     
