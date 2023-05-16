@@ -9,7 +9,7 @@ def call(Map parameters) {
         stages {
             stage ('Checkout') {
                 steps {
-                    cloneRepository(parameters.url, parameters.branch)
+                    cloneRepository(scmUrl: parameters.url, branch: parameters.branch)
                 }
             }
             
