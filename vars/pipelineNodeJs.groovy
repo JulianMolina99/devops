@@ -1,4 +1,4 @@
-def call() {
+def call(Map parameters) {
 
     pipeline {
         agent any
@@ -9,7 +9,7 @@ def call() {
         stages {
             stage ('Checkout') {
                 steps {
-                    cloneRepository()
+                    cloneRepository(parameters.url, parameters.branch)
                 }
             }
             
