@@ -38,6 +38,24 @@ def call(Map parameters) {
                     }
                 }
             }
+
+            stage('Build image Docker') {
+                steps {
+                    script{
+                        dockerBuild()
+                    }
+                }
+            }
+
+            stage('Deploy App with Docker') {
+                steps {
+                    script{
+                        dockerDeploy()
+                    }
+                }
+            }
+
+
         }
     }
 }
