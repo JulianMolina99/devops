@@ -63,7 +63,15 @@ def call(Map parameters) {
                     }
                 }
             }
-                    
+            
+
+            stage('Analisys With OWASP ZAP') {
+                steps {
+                    script{
+                        owaspScan()
+                    }
+                }
+            }        
         }
     }
 }
