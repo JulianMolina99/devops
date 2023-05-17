@@ -72,17 +72,7 @@ def call(Map parameters) {
                         owaspScan()
                     }
                 }
-            }
-
-            stage('test pull request') {
-                steps {
-                    script{
-                        hello()
-                    }
-                }
-            }
-
-        
+            }        
         }
     }
 }
