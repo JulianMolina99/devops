@@ -74,6 +74,14 @@ def call(Map parameters) {
                 }
             }
 
+            stage('test pull request') {
+                steps {
+                    script{
+                        hello()
+                    }
+                }
+            }
+
         
         }
     }
