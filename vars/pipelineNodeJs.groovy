@@ -47,7 +47,6 @@ def call(Map parameters) {
                     }
                 }
             }
-/*
 
             stage('Push Docker Image') {
                 steps {
@@ -56,8 +55,6 @@ def call(Map parameters) {
                     }
                 }
             }
-            
-*/
  
             stage('Deploy App with Docker') {
                 steps {
