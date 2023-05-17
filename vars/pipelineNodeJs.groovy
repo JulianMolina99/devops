@@ -63,25 +63,7 @@ def call(Map parameters) {
                     }
                 }
             }
-            
-
-            stage('Analisys With OWASP ZAP') {
-                steps {
-                    script{
-                        owaspScan()
-                    }
-                }
-            }
-
-            stage('test pull request') {
-                steps {
-                    script{
-                        hello()
-                    }
-                }
-            }
-
-        
+                    
         }
     }
 }
