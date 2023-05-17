@@ -4,6 +4,12 @@ def call() {
         sh "docker exec ${c.id} zap-baseline.py -t http://nodejs_app:3000 -r report_baseInline.html || true"
         sh "docker exec ${c.id} zap-full-scan.py -t http://nodejs_app:3000 -r report_fullScan.html || true"
     }
+
+    sh 'docker cp owasp_data/zap/wrk/report_baseInline.html report_baseInline.html'
+    sh "docker cp report_baseInline.html jenkins:/var/jenkins_home/workspace/${env.JOB_NAME}/"
+
+    sh 'docker cp owasp_data/zap/wrk/report_fullScan.html report_fullScan.html'
+    sh "docker cp report_fullScan.html jenkins:/var/jenkins_home/workspace/${env.JOB_NAME}/"
 }
 
 
