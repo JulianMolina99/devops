@@ -4,3 +4,4 @@ def call(){
         dockerImage.push("${env.BUILD_ID}")
     }
 }
+

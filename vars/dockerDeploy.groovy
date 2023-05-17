@@ -1,5 +1,5 @@
 def call(){
-    withEnv(["BUILD_ID=${env.BUILD_ID}"]) {
+    withEnv(["COMPOSE_PROJECT_NAME=", "BUILD_ID=${env.BUILD_ID}"]) {
         sh 'docker-compose up -d'
     }
 }
