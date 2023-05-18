@@ -7,9 +7,10 @@ def call (){
             -Dsonar.projectName='${env.JOB_NAME}_nodejs_project' \
             -Dsonar.sources=src \
             -Dsonar.tests=src/__test__ \
-            -Dsonar.exclusions=src/__test__/** \
+            -Dsonar.exclusions=src/__test__/** \     
             -Dsonar.testExecutionReportPaths=./test-report.xml \
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
+            -Dsonar.qualitygate.wait=true"
         }
     } else{
         error 'SonarQube Scanner not found'
