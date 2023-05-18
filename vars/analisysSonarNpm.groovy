@@ -3,11 +3,11 @@ def call (){
     if(scannerTool){
         withSonarQubeEnv('SonarQube Local Server'){
             sh "${scannerTool}/bin/sonar-scanner \
-            -Dsonar.projectKey='${env.JOB_NAME}_nodejs_project' \
-            -Dsonar.projectName='${env.JOB_NAME}_nodejs_project' \
+            -Dsonar.projectKey='nodejs_project' \
+            -Dsonar.projectName='nodejs_project' \
             -Dsonar.sources=src \
             -Dsonar.tests=src/__test__ \
-            -Dsonar.exclusions=src/__test__/** \     
+            -Dsonar.exclusions=src/__test__/** \
             -Dsonar.testExecutionReportPaths=./test-report.xml \
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
             -Dsonar.qualitygate.wait=true"
@@ -16,3 +16,4 @@ def call (){
         error 'SonarQube Scanner not found'
     }
 }
+
