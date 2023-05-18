@@ -1,6 +1,6 @@
 def call(){
-    
-    withEnv(["JOB_NAME=${env.JOB_NAME}","BUILD_ID=${env.BUILD_ID}"]) {
+    def repoName = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
+    withEnv(["repoName=${repoName}","BUILD_ID=${env.BUILD_ID}"]) {
         sh 'docker-compose up -d'
     }
     
