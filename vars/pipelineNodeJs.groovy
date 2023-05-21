@@ -1,5 +1,6 @@
 def call(parameters) {
-    def repoBranch = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
+    //def repoBranch = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
+    def repoBranch = 'master'
     echo "${env.GIT_BRANCH}"
     printenv
 
