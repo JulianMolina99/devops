@@ -1,77 +1,21 @@
-def call(Map parameters) {
+def call(parameters) {
+    def repoBranch = env.GIT_BRANCH
+    echo repoBranch
 
-    pipeline {
-        agent any
-        
-        tools {
-            nodejs 'NodeJS'
-        }
-
-        stages {
-            stage ('Checkout') {
-                steps {
-                    cloneRepository(parameters)
-                }
-            }
-            
-            stage('Build app') {
-                steps {
-                    buildNpm()
-                }
-            }
-            
-            stage('Test app') {
-                steps {
-                    testNpm()
-                }
-            }
-            
-            stage('Build artifact') {
-                steps {
-                    buildArtifactNpm()
-                }
-            }
-            
-            stage('Analisys with sonar') {
-                steps {
-                    script{
-                        analisysSonarNpm()
-                    }
-                }
-            }
-
-            stage('Build image Docker') {
-                steps {
-                    script{
-                        dockerBuild()
-                    }
-                }
-            }
-
-            stage('Push Docker Image') {
-                steps {
-                    script{
-                        dockerPush()
-                    }
-                }
-            }
- 
-            stage('Deploy App with Docker') {
-                steps {
-                    script{
-                        dockerDeploy()
-                    }
-                }
-            }
-            
-
-            stage('Analisys With OWASP ZAP') {
-                steps {
-                    script{
-                        owaspScan()
-                    }
-                }
-            }        
-        }
-    }
+    switch(repoBranch) {            
+			
+         case 'master': 
+            println("switch case from master"); 
+            break; 
+         case 'feature': 
+            println("switch case from feature"); 
+            break; 
+         case 'develop': 
+            println("switch case from develop"); 
+            break; 
+         default: 
+            println("The value of branch is unknown"); 
+            break; 
+      }
+    
 }
