@@ -1,6 +1,7 @@
 def call(parameters) {
 
-    echo "${env.GIT_BRANCH}"
+    def repoName = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
+    echo repoName
     pipeline {
         agent any
         
