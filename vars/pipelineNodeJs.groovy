@@ -1,7 +1,6 @@
 def call(parameters) {
 
-    def repoName = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
-    echo repoName
+    
     pipeline {
         agent any
         
@@ -13,6 +12,7 @@ def call(parameters) {
             stage ('Checkout') {
                 steps {
                     cloneRepository(parameters)
+                    echo "${env.GIT_URL}"
                 }
             }
             
