@@ -1,5 +1,5 @@
 def call(parameters) {
-    def repoBranch = env.GIT_URL
+    def repoBranch = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
     echo repoBranch
 
     switch(repoBranch) {            
