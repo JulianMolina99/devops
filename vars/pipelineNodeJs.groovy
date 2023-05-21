@@ -1,6 +1,5 @@
 def call(parameters) {
 
-    
     pipeline {
         agent any
         
@@ -12,7 +11,7 @@ def call(parameters) {
             stage ('Checkout') {
                 steps {
                     cloneRepository(parameters)
-                    echo "${env.GIT_URL}"
+                    echo "${env.GIT_BRANCH}"
                 }
             }
             
