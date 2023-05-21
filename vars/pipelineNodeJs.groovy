@@ -1,5 +1,5 @@
 def call(parameters) {
-    def repoBranch = env.GIT_BRANCH
+    def repoBranch = env.GIT_URL
     echo repoBranch
 
     switch(repoBranch) {            
