@@ -1,23 +1,101 @@
 def call(parameters) {
-    //def repoBranch = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
-    def repoBranch = 'master'
-    echo "${env.GIT_BRANCH}"
-    printenv
 
-    switch(repoBranch) {            
-			
-         case 'master': 
-            println("switch case from master"); 
-            break; 
-         case 'feature': 
-            println("switch case from feature"); 
-            break; 
-         case 'develop': 
-            println("switch case from develop"); 
-            break; 
-         default: 
-            println("The value of branch is unknown"); 
-            break; 
-      }
-    
+    echo "${env.GIT_BRANCH}"
+    pipeline {
+        agent any
+        
+        tools {
+            nodejs 'NodeJS'
+        }
+
+        stages {
+            stage ('Checkout') {
+                steps {
+                    cloneRepository(parameters)
+                }
+            }
+            
+            stage('Build app') {
+                steps {
+                    buildNpm()
+                }
+            }
+            
+            stage('Test app') {
+                steps {
+                    testNpm()
+                }
+            }
+            
+            stage('Build artifact') {
+                steps {
+                    buildArtifactNpm()
+                }
+            }
+            
+            stage('Analisys with sonar') {
+                steps {
+                    script{
+                        analisysSonarNpm()
+                    }
+                }
+            }
+
+            stage('Build image Docker') {
+                when {
+                    expression {
+                        return env.GIT_BRANCH == 'origin/develop'
+                    }
+                }
+                steps {
+                    script{
+                        dockerBuild()
+                    }
+                }
+            }
+
+            /*  
+
+            stage('Push Docker Image') {
+                when {
+                    expression {
+                        return env.GIT_BRANCH == 'origin/develop'
+                    }
+                }
+                steps {
+                    script{
+                        dockerPush()
+                    }
+                }
+            }
+
+            stage('Deploy App with Docker') {
+                when {
+                    expression {
+                        return env.GIT_BRANCH == 'origin/develop'
+                    }
+                }
+                steps {
+                    script{
+                        dockerDeploy()
+                    }
+                }
+            }
+            
+            stage('Analisys With OWASP ZAP') {
+                when {
+                    expression {
+                        return env.GIT_BRANCH == 'origin/develop'
+                    }
+                }
+                steps {
+                    script{
+                        owaspScan()
+                    }
+                }
+            }
+        }
+        */
+    }
+
 }
