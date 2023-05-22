@@ -47,7 +47,7 @@ def call(parameters) {
 
             stage('Build image Docker') {
                 when{
-                    beforeAgent true
+                    //beforeAgent true
                     expression{env.GIT_BRANCH = 'origin/develop'}
                 }
                 steps {
