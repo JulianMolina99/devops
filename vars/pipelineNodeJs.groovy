@@ -11,7 +11,6 @@ def call(parameters) {
             stage ('Checkout') {
                 steps {
                     cloneRepository(parameters)
-                    echo "${env.GIT_BRANCH}"
                 }
             }
             
@@ -42,10 +41,9 @@ def call(parameters) {
             }
 
             stage('Build image Docker') {
-                when {
-                    expression {
-                        return env.GIT_BRANCH == 'origin/develop'
-                    }
+                when{
+                    beforeAgent true
+                    expression{env.GIT_BRANCH = 'origin/develop'}
                 }
                 steps {
                     script{
