@@ -1,10 +1,11 @@
 def call (){
     def scannerTool = tool 'SonarQube Scanner'
+    def repoName = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1').toLowerCase()
     if(scannerTool){
         withSonarQubeEnv('SonarQube Local Server'){
             sh "${scannerTool}/bin/sonar-scanner \
-            -Dsonar.projectKey='nodejs_project' \
-            -Dsonar.projectName='nodejs_project' \
+            -Dsonar.projectKey='${repoName}' \
+            -Dsonar.projectName='${repoName}' \
             -Dsonar.sources=src \
             -Dsonar.tests=src/__test__ \
             -Dsonar.exclusions=src/__test__/** \
