@@ -59,14 +59,14 @@ def call(parameters) {
                         }
                     }
 
-                    /*
-                    stage('Push Docker Image') {
-                        steps {
-                            script {
-                                dockerPush()
-                            }
+                    
+                stage('Push Docker Image') {
+                    steps {
+                        script {
+                            dockerPush()
                         }
                     }
+                }
 
                     stage('Deploy App with Docker') {
                         steps {
@@ -83,7 +83,7 @@ def call(parameters) {
                             }
                         }
                     }
-                    */
+                
                 }
             }
         }
