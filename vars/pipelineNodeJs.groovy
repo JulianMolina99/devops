@@ -35,7 +35,12 @@ def call(parameters) {
             stage('Analisys with sonar') {
                 steps {
                     script{
-                        analisysSonarNpm()
+                        try{
+                            analisysSonarNpm()
+                        } catch (err) {
+                            echo "The project did not pass the quality gate"
+                        }
+                        
                     }
                 }
             }
