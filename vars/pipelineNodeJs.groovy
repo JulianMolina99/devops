@@ -2,13 +2,13 @@ def call(parameters) {
 
     pipeline {
         agent any
-        
+
         tools {
             nodejs 'NodeJS'
         }
 
         stages {
-            stage ('Checkout') {
+            stage('Checkout') {
                 steps {
                     cloneRepository(parameters)
                 }
@@ -34,72 +34,58 @@ def call(parameters) {
             
             stage('Analisys with sonar') {
                 steps {
-                    script{
-                        try{
+                    script {
+                        try {
                             analisysSonarNpm()
                         } catch (err) {
                             echo "The project did not pass the quality gate"
                         }
-                        
                     }
                 }
             }
 
-            stage('Build image Docker') {
-                when{
+            // Etapas que solo se ejecutan en 'origin/develop'
+            stage('Deploy and Analisys in Develop') {
+                when {
                     beforeAgent true
-                    expression{ return env.GIT_BRANCH == 'origin/develop'}
+                    expression { return env.GIT_BRANCH == 'origin/develop' }
                 }
-                steps {
-                    script{
-                        dockerBuild()
+                stages {
+                    stage('Build image Docker') {
+                        steps {
+                            script {
+                                dockerBuild()
+                            }
+                        }
                     }
-                }
-            }
 
-            /*  
+                    /*
+                    stage('Push Docker Image') {
+                        steps {
+                            script {
+                                dockerPush()
+                            }
+                        }
+                    }
 
-            stage('Push Docker Image') {
-                when {
-                    expression {
-                        return env.GIT_BRANCH == 'origin/develop'
+                    stage('Deploy App with Docker') {
+                        steps {
+                            script {
+                                dockerDeploy()
+                            }
+                        }
                     }
-                }
-                steps {
-                    script{
-                        dockerPush()
-                    }
-                }
-            }
 
-            stage('Deploy App with Docker') {
-                when {
-                    expression {
-                        return env.GIT_BRANCH == 'origin/develop'
+                    stage('Analisys With OWASP ZAP') {
+                        steps {
+                            script {
+                                owaspScan()
+                            }
+                        }
                     }
-                }
-                steps {
-                    script{
-                        dockerDeploy()
-                    }
+                    */
                 }
             }
-            
-            stage('Analisys With OWASP ZAP') {
-                when {
-                    expression {
-                        return env.GIT_BRANCH == 'origin/develop'
-                    }
-                }
-                steps {
-                    script{
-                        owaspScan()
-                    }
-                }
-            }
-            */
         }
-        
     }
-
 }
