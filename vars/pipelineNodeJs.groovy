@@ -40,6 +40,15 @@ def call(parameters) {
                 }
             }
 
+            stage("Quality Gate"){
+                timeout(time: 1, unit: 'HOURS') {
+                    def qg = waitForQualityGate()
+                    if (qg.status != 'OK') {
+                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                    }
+                }
+            }
+
             // Etapas que solo se ejecutan en 'origin/develop'
             stage('Deploy and Analisys in Develop') {
                 when {
