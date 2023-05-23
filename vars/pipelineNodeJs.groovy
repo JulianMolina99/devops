@@ -48,7 +48,7 @@ def call(parameters) {
             stage('Deploy and Analisys in Develop') {
                 when {
                     beforeAgent true
-                    expression { return env.GIT_BRANCH == 'origin/develop' }
+                    expression { return env.GIT_BRANCH == 'origin/develop' ||  env.GIT_BRANCH == 'origin/master'}
                 }
                 stages {
                     stage('Build image Docker') {
