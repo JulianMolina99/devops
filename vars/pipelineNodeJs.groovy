@@ -48,7 +48,7 @@ def call(parameters) {
                 }
             }
 
-            // Etapas que solo se ejecutan en 'origin/develop'
+            // Etapas que solo se ejecutan en origin/develop y origin/master
             stage('Deploy and Analisys in Develop') {
                 when {
                     beforeAgent true
