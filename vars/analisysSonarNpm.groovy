@@ -11,6 +11,11 @@ def call (){
             -Dsonar.exclusions=src/__test__/** \
             -Dsonar.testExecutionReportPaths=./test-report.xml \
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
+
+            def qg = waitForQualityGate()
+            if (qg.status != 'OK') {
+                error "Pipeline detenido debido a que los Quality Gates no han pasado: ${qg.status}"
+            }
         }
     } else{
         error 'SonarQube Scanner not found'
