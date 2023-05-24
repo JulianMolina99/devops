@@ -5,8 +5,8 @@ Una Shared Library en Jenkins es una forma de encapsular y reutilizar código co
 
 ## Requisitos previos
 - Instalar Docker:
- - [Docker](https://docs.docker.com/desktop/install/windows-install/) para Windows, en este caso también se instala la herramienta de docker-compose
- - [Docker](https://docs.docker.com/engine/install/ubuntu/) para Ubuntu
+  - [Docker](https://docs.docker.com/desktop/install/windows-install/) para Windows, en este caso también se instala la herramienta de docker-compose
+  - [Docker](https://docs.docker.com/engine/install/ubuntu/) para Ubuntu
  - [Docker-compose](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04) para Ubuntu
 - [Jenkins](https://www.jenkins.io/doc/book/installing/docker/) versión 2.387.3 o superior
 - [SonarQube](https://hub.docker.com/_/sonarqube)
