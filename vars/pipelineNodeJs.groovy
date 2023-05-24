@@ -38,6 +38,12 @@ def call(Map parameters) {
                     }
                 }
             }
+
+            stage("Quality Gate") {
+                steps {
+                    qualityGate()
+                }
+            }
         }
     }
 }
