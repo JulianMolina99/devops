@@ -73,7 +73,7 @@ pipeline {
         }
     }
 }
-
+```
 
 ## Uso
 En esta sección puedes explicar cómo utilizar tu shared library en un pipeline de Jenkins. Puedes incluir ejemplos de código y explicar cómo llamar a las diferentes funciones disponibles.
