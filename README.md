@@ -63,6 +63,9 @@ Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la sigu
 
 pipeline {
     agent any
+    tools {
+            nodejs 'NodeJS'
+        }
     stages {
         stage('Clonar repositorio') {
             steps {
@@ -91,6 +94,9 @@ Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la sigu
 
 pipeline {
     agent any
+    tools {
+            nodejs 'NodeJS'
+        }
     stages {
     
         stage('Clonar repositorio') {
@@ -112,6 +118,78 @@ pipeline {
 }
 ```
 
+### Función `testNpm()`
+
+La función `call` ejecuta las pruebas de un proyecto NPM utilizando los scripts definidos en el archivo `package.json`. Esta función no toma parámetros.
+
+El código de esta función hace lo siguiente:
+1. Ejecuta el comando `npm test` para ejecutar las pruebas del proyecto utilizando el script `test` definido en el archivo `package.json`, se recomienda generar reportes de cobertura de codigo y reporte de las pruebas unitarias del proyecto al utilizar esta funcion.
+
+```
+"test": "jest --coverage --testResultsProcessor=jest-sonar-reporter"
+```
+
+Para utilizar esta función en un pipeline de Jenkins, se debe de tener NPM instalado en el agente donde se ejecutará el pipeline o en su defecto utilizar el plugin de NodeJS para Jenkins, el codigo de la aplicacion y de tener un script `test` válido como en el ejemplo anterior en el archivo `package.json` del proyecto.
+
+Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la siguiente manera:
+
+```groovy
+@Library('my-shared-library') _
+
+pipeline {
+    agent any
+    tools {
+            nodejs 'NodeJS'
+        }
+    stages {
+    
+        stage('Clonar repositorio') {
+            steps {
+                script {
+                    cloneRepository(scmUrl: 'https://github.com/mi-usuario/mi-repositorio.git')
+                }
+            }
+        }
+        
+        stage('Ejecutar pruebas') {
+            steps {
+                script {
+                    testNpm()
+                }
+            }
+        }
+    }
+}
+```
+
+### Función `buildArtifactNpm()`
+
+La función `buildArtifactNpm` crea un archivo tar.gz del directorio `dist` y lo archiva como un artefacto en Jenkins. Esta función no toma parámetros.
+
+El código de esta función hace lo siguiente:
+1. Ejecuta el comando `tar -czvf nodejs_app.tar.gz dist` para crear un archivo tar.gz del directorio `dist`.
+2. Utiliza la función `archiveArtifacts` de Jenkins para archivar el archivo tar.gz como un artefacto en Jenkins y habilitar el seguimiento de huellas dactilares.
+
+Para utilizar esta función en un pipeline de Jenkins, se debe tener el comando `tar` disponible en el agente donde se ejecutará el pipeline y de tener un directorio `dist` válido en el proyecto, este directorio `dist` se genera al momento de realizar el `build` de la aplicacion.
+
+Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la siguiente manera:
+
+```groovy
+@Library('my-shared-library') _
+
+pipeline {
+    agent any
+    stages {
+        stage('Archivar artefacto') {
+            steps {
+                script {
+                    buildArtifactNpm()
+                }
+            }
+        }
+    }
+}
+```
 
 
 ## Uso
