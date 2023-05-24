@@ -4,9 +4,12 @@
 Una Shared Library en Jenkins es una forma de encapsular y reutilizar código común en pipelines. Proporciona una manera de extender las capacidades de Jenkins y promover las mejores prácticas en la implementación de pipelines de CI/CD. Esta documentación describe una Shared Library específica para realizar el pipeline en Jenkins de una aplicacion de NodeJs, esta aplicacion se puede encontrar en el siguiente repositorio: https://github.com/JulianMolina99/NodeJSApp.git
 
 ## Requisitos previos
-- Jenkins versión 2.387.3 o superior
-- Docker
-- SonarQube
+- Instalar Docker:
+ - [Docker](https://docs.docker.com/desktop/install/windows-install/) para Windows, en este caso también se instala la herramienta de docker-compose
+ - [Docker](https://docs.docker.com/engine/install/ubuntu/) para Ubuntu
+ - [Docker-compose](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04) para Ubuntu
+- [Jenkins](https://www.jenkins.io/doc/book/installing/docker/) versión 2.387.3 o superior
+- [SonarQube](https://hub.docker.com/_/sonarqube)
 
 
 ## Estructura del repositorio
