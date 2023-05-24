@@ -388,10 +388,38 @@ pipelineNodeJs(parameters)
 ```
 
 ## Uso
-En esta sección puedes explicar cómo utilizar tu shared library en un pipeline de Jenkins. Puedes incluir ejemplos de código y explicar cómo llamar a las diferentes funciones disponibles.
 
-## Contribución
-Si deseas permitir contribuciones a tu shared library, puedes incluir una sección explicando cómo pueden los usuarios contribuir al proyecto.
+Para configurar la Shared Library en Jenkins, siga los pasos detallados a continuación:
+
+1. **Acceda a la configuración del sistema de Jenkins**: Ingrese a la interfaz de Jenkins y seleccione "Manage Jenkins" en el menú lateral izquierdo, a continuación seleccione "Configure System".
+
+2. **Configure la Shared Library**: Diríjase hacia abajo hasta llegar a la sección "Global Pipeline Libraries". Haga clic en "Add" para agregar una nueva Shared Library. Complete los campos con la siguiente información:
+
+    - **Name**: Este será el nombre que se utilizará para referenciar la Shared Library en los pipelines. Por ejemplo, puede usar `my-shared-library`.
+  
+    - **Default version**: Aquí puede especificar la rama por defecto del repositorio que Jenkins debería utilizar, por ejemplo `main` o dejar este espacio en blanco.
+  
+    - **Retrieval method**: Seleccione "Modern SCM" y luego seleccione "GitHub" (o el tipo de repositorio que esté utilizando).
+
+    - **Source Code Management**: Proporcione el gestor de codigo fuente en este caso es Git.
+
+    - **Project Repository**: Introduzca la URL del repositorio de GitHub en el que se encuentra la Shared Library.
+
+    - **Credentials**: Si el repositorio es privado, necesitará proporcionar las credenciales de GitHub correspondientes. Si es público, puede dejar esta opción en "- none -".
+
+3. **Guarde los cambios**: Diríjase hasta la parte inferior de la página y haga clic en "Save" para guardar los cambios.
+
+Una vez completados los pasos anteriores, la Shared Library está lista para ser utilizada en los pipelines. Simplemente se debe agregar al inicio del archivo `Jenkinsfile` con la siguiente sintaxis:
+
+\```groovy
+@Library('my-shared-library') _
+\```
+
+Asegúrese de reemplazar `my-shared-library` con el nombre que ha usado al configurar la Shared Library.
+
+De esta manera, todas las funciones definidas en la Shared Library estarán disponibles para su uso en el pipeline. Recuerde revisar la documentación de cada función para entender cómo utilizarla correctamente.
+
+
 
 ## Licencia
-No olvides incluir información sobre la licencia bajo la cual está disponible tu shared library.
+Este proyecto está bajo la Licencia MIT - revisar el archivo LICENSE.md para mas detalles
