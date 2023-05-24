@@ -45,7 +45,7 @@ La estructura de esta Shared Library de Jenkins se explica a continuación:
 
 ## Documentación de funciones
 
-### Función `cloneRepository`
+### Función `cloneRepository()`
 
 La función `cloneRepository` clona un repositorio Git utilizando las credenciales especificadas. Esta función toma un parámetro de tipo Map que debe contener la siguiente clave:
 - `scmUrl`: La URL del repositorio Git a clonar.
@@ -74,6 +74,45 @@ pipeline {
     }
 }
 ```
+### Función `buildNpm()`
+
+La función `buildNpm` instala las dependencias y compila el código de un proyecto NPM utilizando los scripts definidos en el archivo `package.json`. Esta función no toma parámetros.
+
+El código de esta función hace lo siguiente:
+1. Ejecuta el comando `npm install` para instalar las dependencias del proyecto.
+2. Ejecuta el comando `npm run build` para compilar el código del proyecto utilizando el script `build` definido en el archivo `package.json`.
+
+Para utilizar esta función en un pipeline de Jenkins, se debe de tener NPM instalado en el agente donde se ejecutará el pipeline o en su defecto utilizar el plugin de NodeJS para Jenkins, el codigo de la aplicacion y de tener un script `build` válido en el archivo `package.json` del proyecto.
+
+Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la siguiente manera:
+
+```groovy
+@Library('my-shared-library') _
+
+pipeline {
+    agent any
+    stages {
+    
+        stage('Clonar repositorio') {
+            steps {
+                script {
+                    cloneRepository(scmUrl: 'https://github.com/mi-usuario/mi-repositorio.git')
+                }
+            }
+        }
+        
+        stage('Compilar código') {
+            steps {
+                script {
+                    buildNpm()
+                }
+            }
+        }
+    }
+}
+```
+
+
 
 ## Uso
 En esta sección puedes explicar cómo utilizar tu shared library en un pipeline de Jenkins. Puedes incluir ejemplos de código y explicar cómo llamar a las diferentes funciones disponibles.
