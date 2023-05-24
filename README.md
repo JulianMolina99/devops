@@ -98,15 +98,6 @@ pipeline {
             nodejs 'NodeJS'
         }
     stages {
-    
-        stage('Clonar repositorio') {
-            steps {
-                script {
-                    cloneRepository(scmUrl: 'https://github.com/mi-usuario/mi-repositorio.git')
-                }
-            }
-        }
-        
         stage('Compilar código') {
             steps {
                 script {
@@ -120,7 +111,7 @@ pipeline {
 
 ### Función `testNpm()`
 
-La función `call` ejecuta las pruebas de un proyecto NPM utilizando los scripts definidos en el archivo `package.json`. Esta función no toma parámetros.
+La función `testNpm` ejecuta las pruebas de un proyecto NPM utilizando los scripts definidos en el archivo `package.json`. Esta función no toma parámetros.
 
 El código de esta función hace lo siguiente:
 1. Ejecuta el comando `npm test` para ejecutar las pruebas del proyecto utilizando el script `test` definido en el archivo `package.json`, se recomienda generar reportes de cobertura de codigo y reporte de las pruebas unitarias del proyecto al utilizar esta funcion.
@@ -141,16 +132,7 @@ pipeline {
     tools {
             nodejs 'NodeJS'
         }
-    stages {
-    
-        stage('Clonar repositorio') {
-            steps {
-                script {
-                    cloneRepository(scmUrl: 'https://github.com/mi-usuario/mi-repositorio.git')
-                }
-            }
-        }
-        
+    stages { 
         stage('Ejecutar pruebas') {
             steps {
                 script {
@@ -191,6 +173,219 @@ pipeline {
 }
 ```
 
+### Función `analisysSonarNpm()`
+La función `analisysSonarNpm` ejecuta un análisis de SonarQube en el repositorio actual. Esta función no toma parámetros.
+
+El código de esta función hace lo siguiente:
+1. Define una variable `scannerTool` que contiene la herramienta 'SonarQube Scanner'.
+2. Define una variable `repoName` que contiene el nombre del repositorio actual en minúsculas.
+3. Si la herramienta 'SonarQube Scanner' está disponible, se ejecuta un análisis de SonarQube en el repositorio actual utilizando la herramienta 'SonarQube Scanner' y la configuración del servidor 'SonarQube Local Server'.
+4. El comando `sh` ejecuta el script de SonarQube Scanner con los siguientes parámetros:
+    - `-Dsonar.projectKey='${repoName}'`: Establece la clave del proyecto en SonarQube como el nombre del repositorio actual.
+    - `-Dsonar.projectName='${repoName}'`: Establece el nombre del proyecto en SonarQube como el nombre del repositorio actual.
+    - `-Dsonar.sources=src`: Establece el directorio de fuentes a analizar como `src`.
+    - `-Dsonar.tests=src/__test__`: Establece el directorio de pruebas a analizar como `src/__test__`.
+    - `-Dsonar.exclusions=src/__test__/**`: Excluye todos los archivos en el directorio `src/__test__` del análisis.
+    - `-Dsonar.testExecutionReportPaths=./test-report.xml`: Establece la ruta del informe de ejecución de pruebas como `./test-report.xml`.
+    - `-Dsonar.javascript.lcov.reportPaths=coverage/lcov.info`: Establece la ruta del informe de cobertura de código para JavaScript como `coverage/lcov.info`.
+5. Si la herramienta 'SonarQube Scanner' no está disponible, se muestra un error.
+
+Para utilizar esta función en un pipeline de Jenkins, se debe tener la herramienta 'SonarQube Scanner' y el servidor 'SonarQube Local Server' configurados en Jenkins.
+
+Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la siguiente manera:
+
+```groovy
+@Library('my-shared-library') _
+
+pipeline {
+    agent any
+    stages {
+        stage('Análisis SonarQube') {
+            steps {
+                script {
+                    analisysSonarNpm()
+                }
+            }
+        }
+    }
+}
+```
+
+### Función `qualityGate()`
+La función `qualityGate` espera a que se complete el análisis de calidad de SonarQube y aborta el pipeline si el análisis falla. Esta función no toma parámetros.
+
+El código de esta función hace lo siguiente:
+1. Utiliza la función `timeout` de Jenkins para establecer un tiempo límite de 1 hora para esperar a que se complete el análisis de calidad de SonarQube.
+2. Utiliza la función `waitForQualityGate` de Jenkins para esperar a que se complete el análisis de calidad de SonarQube.
+3. Si el análisis de calidad de SonarQube falla, se aborta el pipeline.
+
+Para utilizar esta función en un pipeline de Jenkins, se debe tener un análisis de calidad de SonarQube configurado en el pipeline.
+
+Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la siguiente manera:
+
+```groovy
+@Library('my-shared-library') _
+
+pipeline {
+    agent any
+    stages {
+        stage('Esperar análisis de calidad') {
+            steps {
+                script {
+                    qualityGate()
+                }
+            }
+        }
+    }
+}
+```
+
+### Función `dockerBuild()`
+La función `dockerBuild` construye una imagen de Docker para el repositorio actual. Esta función no toma parámetros.
+
+El código de esta función hace lo siguiente:
+1. Define una variable `repoName` que contiene el nombre del repositorio actual en minúsculas.
+2. Utiliza la función `docker.build` de Jenkins para construir una imagen de Docker para el repositorio actual utilizando el nombre de la imagen como `julianmol007/${repoName}:${env.BUILD_ID}`.
+
+Para utilizar esta función en un pipeline de Jenkins, se debe tener Docker instalado y configurado en el agente donde se ejecutará el pipeline.
+
+Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la siguiente manera:
+
+```groovy
+@Library('my-shared-library') _
+
+pipeline {
+    agent any
+    stages {
+        stage('Construir imagen de Docker') {
+            steps {
+                script {
+                    dockerBuild()
+                }
+            }
+        }
+    }
+}
+```
+
+### Función `dockerPush()`
+La función `dockerPush` carga una imagen de Docker para el repositorio actual en Docker Hub. Esta función no toma parámetros.
+
+El código de esta función hace lo siguiente:
+1. Define una variable `repoName` que contiene el nombre del repositorio actual en minúsculas.
+2. Utiliza la función `docker.image` de Jenkins para obtener una imagen de Docker para el repositorio actual utilizando el nombre de la imagen como `julianmol007/${repoName}:${env.BUILD_ID}`.
+3. Utiliza la función `docker.withRegistry` de Jenkins para iniciar sesión en Docker Hub utilizando las credenciales almacenadas en Jenkins con el ID 'docker-login'.
+4. Utiliza la función `push` del objeto `dockerImage` para cargar la imagen de Docker en Docker Hub con la etiqueta `${env.BUILD_ID}`.
+
+Para utilizar esta función en un pipeline de Jenkins, se debe tener Docker instalado y configurado en el agente donde se ejecutará el pipeline y tener las credenciales de Docker Hub almacenadas en Jenkins con el ID 'docker-login'.
+
+Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la siguiente manera:
+
+```groovy
+@Library('my-shared-library') _
+
+pipeline {
+    agent any
+    stages {
+        stage('Cargar imagen de Docker') {
+            steps {
+                script {
+                    dockerPush()
+                }
+            }
+        }
+    }
+}
+```
+
+### Función `dockerDeploy()`
+La función `dockerDeploy` inicia un conjunto de servicios definidos en un archivo `docker-compose.yml` en el repositorio actual. Esta función no toma parámetros.
+
+El código de esta función hace lo siguiente:
+1. Define una variable `repoName` que contiene el nombre del repositorio actual en minúsculas.
+2. Utiliza la función `withEnv` de Jenkins para establecer las variables de entorno `repoName` y `BUILD_ID` con los valores del nombre del repositorio y el ID de la compilación actual, respectivamente.
+3. Ejecuta el comando `docker-compose up -d` para iniciar los servicios definidos en el archivo `docker-compose.yml`.
+
+Para utilizar esta función en un pipeline de Jenkins, se debe tener Docker Compose instalado y configurado en el agente donde se ejecutará el pipeline y tener un archivo `docker-compose.yml` válido en el repositorio.
+
+Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la siguiente manera:
+
+```groovy
+@Library('my-shared-library') _
+
+pipeline {
+    agent any
+    stages {
+        stage('Iniciar servicios') {
+            steps {
+                script {
+                    dockerDeploy()
+                }
+            }
+        }
+    }
+}
+```
+
+### Función `owaspScan()`
+La función `owaspScan` ejecuta un análisis de seguridad OWASP ZAP en una aplicación Node.js. Esta función no toma parámetros.
+
+El código de esta función hace lo siguiente:
+1. Utiliza la función `docker.image` de Jenkins para obtener una imagen de Docker para OWASP ZAP utilizando el nombre de la imagen como `owasp/zap2docker-stable`.
+2. Utiliza la función `withRun` del objeto `owaspImage` para iniciar un contenedor de Docker con la imagen de OWASP ZAP y ejecutar los siguientes comandos:
+    - Ejecuta el script `zap-baseline.py` en el contenedor de Docker para realizar un análisis básico de seguridad en la aplicación Node.js en la URL `http://nodejs_app:3001` y guardar el informe en el archivo `report_baseInline.html`.
+    - Ejecuta el script `zap-full-scan.py` en el contenedor de Docker para realizar un análisis completo de seguridad en la aplicación Node.js en la URL `http://nodejs_app:3001` y guardar el informe en el archivo `report_fullScan.html`.
+    - Copia los archivos `report_baseInline.html` y `report_fullScan.html` desde el contenedor de Docker al directorio de trabajo actual.
+    - Copia los archivos `report_baseInline.html` y `report_fullScan.html` desde el directorio de trabajo actual al directorio del trabajo actual en Jenkins.
+
+Para utilizar esta función en un pipeline de Jenkins, se debe tener Docker instalado y configurado en el agente donde se ejecutará el pipeline y tener una aplicación Node.js válida ejecutándose en la URL `http://nodejs_app:3001`.
+
+Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la siguiente manera:
+
+```groovy
+@Library('my-shared-library') _
+
+pipeline {
+    agent any
+    stages {
+        stage('Análisis de seguridad OWASP ZAP') {
+            steps {
+                script {
+                    owaspScan()
+                }
+            }
+        }
+    }
+}
+```
+### Función `pipelineNodeJs()`
+La función `pipelineNodeJs` define un pipeline de Jenkins para construir, probar y desplegar una aplicación Node.js. Esta función toma un parámetro `parameters` que contiene los parámetros del pipeline.
+
+El código de esta función hace lo siguiente:
+1. Define un agente para ejecutar el pipeline en cualquier nodo disponible.
+2. Define una herramienta `nodejs` con el nombre 'NodeJS' para utilizar en el pipeline.
+3. Define varias etapas en el pipeline:
+    - Etapa 'Checkout': Clona el repositorio utilizando la función `cloneRepository` y los parámetros especificados en `parameters`.
+    - Etapa 'Build app': Construye la aplicación Node.js utilizando la función `buildNpm`.
+    - Etapa 'Test app': Prueba la aplicación Node.js utilizando la función `testNpm`.
+    - Etapa 'Build artifact': Construye un artefacto de la aplicación Node.js utilizando la función `buildArtifactNpm`.
+    - Etapa 'Analisys with sonar': Realiza un análisis de SonarQube en la aplicación Node.js utilizando la función `analisysSonarNpm`.
+    - Etapa 'Quality Gate': Espera a que se complete el análisis de calidad de SonarQube y aborta el pipeline si el análisis falla utilizando la función `qualityGate`.
+    - Etapa 'Deploy and Analisys in Develop': Esta etapa solo se ejecuta si la rama actual es `origin/develop` o `origin/master`. Contiene varias sub-etapas:
+        - Sub-etapa 'Build image Docker': Construye una imagen de Docker para la aplicación Node.js utilizando la función `dockerBuild`.
+        - Sub-etapa 'Push Docker Image': Carga la imagen de Docker en Docker Hub utilizando la función `dockerPush`.
+        - Sub-etapa 'Deploy App with Docker': Despliega la aplicación Node.js utilizando Docker y la función `dockerDeploy`.
+        - Sub-etapa 'Analisys With OWASP ZAP': Realiza un análisis de seguridad OWASP ZAP en la aplicación Node.js utilizando la función `owaspScan`.
+
+Para utilizar esta función en un pipeline de Jenkins, se debe tener Node.js, Docker y SonarQube instalados y configurados en el agente donde se ejecutará el pipeline.
+
+Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la siguiente manera:
+
+```groovy
+@Library('my-shared-library') _
+
+pipelineNodeJs(parameters)
+```
 
 ## Uso
 En esta sección puedes explicar cómo utilizar tu shared library en un pipeline de Jenkins. Puedes incluir ejemplos de código y explicar cómo llamar a las diferentes funciones disponibles.
