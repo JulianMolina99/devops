@@ -1,7 +1,7 @@
 # Shared Library de Jenkins
 
 ## Introducción
-Una Shared Library en Jenkins es una forma de encapsular y reutilizar código común en pipelines. Proporciona una manera de extender las capacidades de Jenkins y promover las mejores prácticas en la implementación de pipelines de CI/CD. Esta documentación describe una Shared Library específica para realizar el pipeline en Jenkins de una aplicacion de NodeJs.
+Una Shared Library en Jenkins es una forma de encapsular y reutilizar código común en pipelines. Proporciona una manera de extender las capacidades de Jenkins y promover las mejores prácticas en la implementación de pipelines de CI/CD. Esta documentación describe una Shared Library específica para realizar el pipeline en Jenkins de una aplicacion de NodeJs, esta aplicacion se puede encontrar en el siguiente repositorio: https://github.com/JulianMolina99/NodeJSApp.git
 
 ## Requisitos previos
 - Jenkins versión 2.387.3 o superior
