@@ -43,6 +43,37 @@ La estructura de esta Shared Library de Jenkins se explica a continuación:
     └── testNpm.groovy
 ```
 
+## Documentación de funciones
+
+### Función `cloneRepository`
+
+La función `cloneRepository` clona un repositorio Git utilizando las credenciales especificadas. Esta función toma un parámetro de tipo Map que debe contener la siguiente clave:
+- `scmUrl`: La URL del repositorio Git a clonar.
+
+El código de esta función hace lo siguiente:
+1. Utiliza la función `git` de Jenkins para clonar el repositorio especificado en el parámetro `scmUrl`.
+2. Utiliza las credenciales con el ID `token_github` para autenticarse en el repositorio.
+
+Para utilizar esta función en un pipeline de Jenkins, se debe tener configuradas las credenciales o token de GitHub con el ID `token_github` en la configuración global de credenciales de Jenkins.
+
+Para utilizar esta función en un pipeline de Jenkins, se puede hacer de la siguiente manera:
+
+```groovy
+@Library('my-shared-library') _
+
+pipeline {
+    agent any
+    stages {
+        stage('Clonar repositorio') {
+            steps {
+                script {
+                    cloneRepository(scmUrl: 'https://github.com/mi-usuario/mi-repositorio.git')
+                }
+            }
+        }
+    }
+}
+
 
 ## Uso
 En esta sección puedes explicar cómo utilizar tu shared library en un pipeline de Jenkins. Puedes incluir ejemplos de código y explicar cómo llamar a las diferentes funciones disponibles.
