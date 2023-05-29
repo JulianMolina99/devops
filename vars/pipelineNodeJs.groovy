@@ -8,11 +8,12 @@ def call(parameters) {
         }
 
         stages {
+            /*
             stage('Checkout') {
                 steps {
                     cloneRepository(parameters)
                 }
-            }
+            }*/
             
             stage('Build app') {
                 steps {
