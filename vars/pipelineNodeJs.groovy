@@ -8,13 +8,13 @@ def call(parameters) {
         }
 
         stages {
-            /*
+            
             stage('Checkout') {
                 steps {
                     cloneRepository(parameters)
                 }
-            }*/
-            /*
+            }
+           
             stage('Build app') {
                 steps {
                     buildNpm()
@@ -46,7 +46,7 @@ def call(parameters) {
                     qualityGate()
                 }
             }
-*/
+
             // Etapas que solo se ejecutan en origin/develop y origin/master
             stage('Deploy and Analisys in Develop') {
                 when {
@@ -54,7 +54,7 @@ def call(parameters) {
                     expression { return env.GIT_BRANCH == 'origin/develop' ||  env.GIT_BRANCH == 'origin/master'}
                 }
                 stages {
-                    /*
+                    
                     stage('Build image Docker') {
                         steps {
                             script {
@@ -63,14 +63,14 @@ def call(parameters) {
                         }
                     }
 
-                  
+                  /*
                 stage('Push Docker Image') {
                     steps {
                         script {
                             dockerPush()
                         }
                     }
-                }
+                }*/
 
                     stage('Deploy App with Docker') {
                         steps {
@@ -78,7 +78,7 @@ def call(parameters) {
                                 dockerDeploy()
                             }
                         }
-                    }*/
+                    }
 
                     stage('Analisys With OWASP ZAP') {
                         steps {
