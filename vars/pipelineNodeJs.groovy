@@ -54,6 +54,7 @@ def call(parameters) {
                     expression { return env.GIT_BRANCH == 'origin/develop' ||  env.GIT_BRANCH == 'origin/master'}
                 }
                 stages {
+                    /*
                     stage('Build image Docker') {
                         steps {
                             script {
@@ -62,7 +63,7 @@ def call(parameters) {
                         }
                     }
 
-                    
+                  
                 stage('Push Docker Image') {
                     steps {
                         script {
@@ -77,7 +78,7 @@ def call(parameters) {
                                 dockerDeploy()
                             }
                         }
-                    }
+                    }*/
 
                     stage('Analisys With OWASP ZAP') {
                         steps {
