@@ -14,7 +14,7 @@ def call(parameters) {
                     cloneRepository(parameters)
                 }
             }*/
-            
+            /*
             stage('Build app') {
                 steps {
                     buildNpm()
@@ -46,7 +46,7 @@ def call(parameters) {
                     qualityGate()
                 }
             }
-
+*/
             // Etapas que solo se ejecutan en origin/develop y origin/master
             stage('Deploy and Analisys in Develop') {
                 when {
